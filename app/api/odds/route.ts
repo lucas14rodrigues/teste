@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { memoryCache } from "@/lib/cache"
 
 const API_KEY = process.env.ODDS_API_KEY || "5c6e500b4558d4524bcdb807c7476481"
 const BASE_URL = "https://api.the-odds-api.com/v4"
@@ -8,6 +9,14 @@ export async function GET(request: Request) {
   const sport = searchParams.get("sport") || "upcoming"
   const regions = searchParams.get("regions") || "us"
   const markets = searchParams.get("markets") || "h2h"
+
+  const cacheKey = `odds-${sport}-${regions}-${markets}`
+
+  const cachedData = memoryCache.get(cacheKey)
+  if (cachedData) {
+    console.log("Retornando dados do cache para:", sport)
+    return NextResponse.json(cachedData)
+  }
 
   console.log("API_KEY exists:", !!API_KEY)
   console.log("Fetching sport:", sport)
@@ -22,7 +31,7 @@ export async function GET(request: Request) {
     console.log("Fetching URL:", url.replace(API_KEY, "***"))
 
     const response = await fetch(url, {
-      next: { revalidate: 300 },
+      next: { revalidate: 1800 },
     })
 
     console.log("Response status:", response.status)
@@ -37,7 +46,13 @@ export async function GET(request: Request) {
     const data = await response.json()
     console.log("Data received:", data.length, "items")
 
-    return NextResponse.json(data)
+    memoryCache.set(cacheKey, data, 1800)
+
+    return NextResponse.json(data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=3600",
+      },
+    })
   } catch (error) {
     console.error("Fetch error:", error)
     return NextResponse.json(

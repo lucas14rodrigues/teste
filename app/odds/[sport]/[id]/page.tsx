@@ -1,5 +1,5 @@
 import OddDetailPage from "@/components/pages/OddDetailPage"
-import { Metadata } from "next"
+import type { Metadata } from "next"
 import { headers } from "next/headers"
 
 interface Params {
@@ -7,12 +7,13 @@ interface Params {
   id: string
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const resolvedParams = await params
   const headersList = await headers()
   const host = headersList.get("host") || "localhost:3000"
   const protocol = headersList.get("x-forwarded-proto") || "https"
 
-  const fullUrl = `${protocol}://${host}/odds/${params.sport}/${params.id}`
+  const fullUrl = `${protocol}://${host}/odds/${resolvedParams.sport}/${resolvedParams.id}`
 
   return {
     title: "Odds por Casa de Aposta | Ana Gaming",

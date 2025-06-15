@@ -44,7 +44,9 @@ export default function OddDetailPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOddDetail()
+    if (sport && id) {
+      fetchOddDetail()
+    }
   }, [sport, id])
 
   const fetchOddDetail = async () => {
