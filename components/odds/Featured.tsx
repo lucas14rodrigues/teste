@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Trophy, Flame } from "lucide-react"
+import { sortOddsByDate, getRandomSports, removeDuplicateOdds } from "@/lib/utils"
 
 // Componentes
 import { OddRow } from "@/components/odds/OddsRow"
@@ -75,45 +76,40 @@ export function FeaturedOdds() {
     }
   }
 
-  const getRandomSports = (sports: Sport[], count: number): Sport[] => {
-    const shuffled = [...sports].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, count)
-  }
-
   const fetchOddsForSelectedSports = async (sports: Sport[]) => {
-  const sportsWithOddsData: SportWithOdds[] = []
+    const sportsWithOddsData: SportWithOdds[] = []
 
-  for (const sport of sports) {
-    try {
-      const oddsResponse = await fetch(`/api/odds?sport=${sport.key}`)
+    for (const sport of sports) {
+      try {
+        const oddsResponse = await fetch(`/api/odds?sport=${sport.key}`)
 
-      if (!oddsResponse.ok) {
-        continue
-      }
+        if (!oddsResponse.ok) {
+          continue
+        }
 
-      const oddsData = await oddsResponse.json()
+        const oddsData = await oddsResponse.json()
 
-      if (!Array.isArray(oddsData) || oddsData.length === 0) {
-        continue
-      }
+        if (!Array.isArray(oddsData) || oddsData.length === 0) {
+          continue
+        }
 
-      const limitedOdds = oddsData.slice(0, 4)
+        const cleanedOdds = removeDuplicateOdds(oddsData)
+        const sortedOdds = sortOddsByDate(cleanedOdds)
+        const limitedOdds = sortedOdds.slice(0, 4)
 
-      sportsWithOddsData.push({
-        sport: sport,
-        odds: limitedOdds,
-      })
+        sportsWithOddsData.push({
+          sport: sport,
+          odds: limitedOdds,
+        })
+      } catch (error) {}
 
-    } catch (error) {
+      await new Promise((resolve) => setTimeout(resolve, 200))
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 200))
+    if (sportsWithOddsData.length > 0) {
+      setSelectedSportsWithOdds(sportsWithOddsData)
+    }
   }
-
-  if (sportsWithOddsData.length > 0) {
-    setSelectedSportsWithOdds(sportsWithOddsData)
-  }
-}
   const getBestOdds = (bookmakers: any[]) => {
     if (!bookmakers || bookmakers.length === 0) return null
 
@@ -146,7 +142,9 @@ export function FeaturedOdds() {
   if (loading) {
     return (
       <Card className="space-y-4">
-        <h2 className="font-semibold text-lg flex gap-2"><Flame className="w-8 text-green-500" /> Odds em destaque</h2>
+        <h2 className="font-semibold text-lg flex gap-2">
+          <Flame className="w-8 text-green-500" /> Odds em destaque
+        </h2>
         <p className="text-base font-normal">Carregando odds...</p>
       </Card>
     )
@@ -154,8 +152,9 @@ export function FeaturedOdds() {
 
   return (
     <Card className="space-y-4">
-
-      <h2 className="font-semibold text-lg flex gap-2"><Flame className="w-8 text-green-500" /> Odds em destaque</h2>
+      <h2 className="font-semibold text-lg flex gap-2">
+        <Flame className="w-8 text-green-500" /> Odds em destaque
+      </h2>
 
       <div>
         {selectedSportsWithOdds.map((sportWithOdds, sportIndex) => (
@@ -165,7 +164,6 @@ export function FeaturedOdds() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: sportIndex * 0.1 }}
           >
-
             <div className="border-b-green-500 border-b-2 border-[0] p-4 flex items-center gap-2">
               <Trophy className="w-8 text-green-500" />
               <div>

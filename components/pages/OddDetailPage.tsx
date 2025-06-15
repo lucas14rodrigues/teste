@@ -3,15 +3,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import { motion } from "framer-motion"
-import {
-  Calendar,
-  Clock,
-  TrendingUp,
-  Building2,
-  Trophy,
-  Flame,
-  ExternalLink,
-} from "lucide-react"
+import { Calendar, Clock, TrendingUp, Building2, Trophy, Flame, ExternalLink } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Link from "next/link"
@@ -70,10 +62,7 @@ export default function OddDetailPage() {
   if (loading) {
     return (
       <>
-        <MainBanner
-          title="Carregando informações da partida..."
-          image="/banners/banner.webp"
-        />
+        <MainBanner title="Carregando informações da partida..." image="/banners/banner.webp" />
 
         <section className="p-4 lg:p-6">
           <div className="container flex flex-col xl:flex-row gap-6">
@@ -95,10 +84,7 @@ export default function OddDetailPage() {
   if (!odd) {
     return (
       <>
-        <MainBanner
-          title="Nenhuma partida encontrada"
-          image="/banners/banner.webp"
-        />
+        <MainBanner title="Nenhuma partida encontrada" image="/banners/banner.webp" />
 
         <section className="p-4 lg:p-6">
           <div className="container flex flex-col xl:flex-row gap-6">
@@ -122,21 +108,14 @@ export default function OddDetailPage() {
 
   return (
     <>
-      <MainBanner
-        title={`${odd.sport_title}: ${odd.home_team} vs ${odd.away_team}`}
-        image="/banners/banner.webp"
-      />
+      <MainBanner title={`${odd.sport_title}: ${odd.home_team} vs ${odd.away_team}`} image="/banners/banner.webp" />
 
       <section className="p-4 lg:p-6">
         <div className="container flex flex-col xl:flex-row gap-6">
           <Sidebar />
 
           <div className="w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <Card className="rounded-md flex flex-col md:flex-row md:items-center md:justify-between bg-green-300 p-4 gap-4">
                 <div className="space-y-2">
                   <h2 className="flex gap-2 font-semibold text-lg">
@@ -283,17 +262,13 @@ export default function OddDetailPage() {
                         })
 
                         return Object.entries(allOutcomes).map(([team, odds]) => {
-                          const bestOdd = odds.reduce((best, current) =>
-                            current.price > best.price ? current : best
-                          )
+                          const bestOdd = odds.reduce((best, current) => (current.price > best.price ? current : best))
 
                           return (
                             <div key={team} className="p-4 border rounded-md">
                               <h4 className="font-semibold text-base mb-2">{team}</h4>
                               <div className="flex items-center justify-between">
-                                <span className="text-sm">
-                                  Melhor odd: {bestOdd.bookmaker}
-                                </span>
+                                <span className="text-sm">Melhor odd: {bestOdd.bookmaker}</span>
                                 <b>{bestOdd.price.toFixed(2)}</b>
                               </div>
                             </div>

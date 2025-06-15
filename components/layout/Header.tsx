@@ -85,7 +85,7 @@ export function Header() {
 
                 <DropdownMenuContent>
                   <DropdownMenuItem asChild>
-                    <Link href="/minha-conta" title="Minha Conta" className="flex gap-2 text-xs cursor-pointer items-center">
+                    <Link href="/minha-conta/" title="Minha Conta" className="flex gap-2 text-xs cursor-pointer items-center">
                       <User className="w-4" />
                       Minha Conta
                     </Link>
@@ -100,7 +100,7 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/login" title="Entrar">
+              <Link href="/login/" title="Entrar">
                 <AlternativeButton><User className="w-5" /> Entrar</AlternativeButton>
               </Link>
             )}

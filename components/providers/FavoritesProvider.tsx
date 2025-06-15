@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import { sortFavoritesByOrder } from "@/lib/utils"
 
 interface League {
   id: string
@@ -17,6 +18,7 @@ interface FavoritesContextType {
   addFavorite: (league: League) => void
   removeFavorite: (leagueId: string) => void
   reorderFavorites: (reorderedFavorites: League[]) => void
+  sortFavorites: () => void
   isFavorite: (leagueId: string) => boolean
 }
 
@@ -55,6 +57,10 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     setFavorites(reorderedFavorites)
   }
 
+  const sortFavorites = () => {
+    setFavorites((prev) => sortFavoritesByOrder(prev))
+  }
+
   const isFavorite = (leagueId: string) => {
     return favorites.some((fav) => fav.id === leagueId)
   }
@@ -66,6 +72,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
         addFavorite,
         removeFavorite,
         reorderFavorites,
+        sortFavorites,
         isFavorite,
       }}
     >

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, ChevronRight, Search, Trophy, Medal, Heart } from "lucide-react"
 import Link from "next/link"
 import { useFavorites } from "@/components/providers/FavoritesProvider"
+import { groupSportsByGroup, filterSportsBySearch, debounceSearch } from "@/lib/utils"
 
 // Componentes
 import { Card } from "@/components/ui/Cards"
@@ -26,11 +27,16 @@ export function SportsSidebar() {
   const [loading, setLoading] = useState(true)
   const [expandedSports, setExpandedSports] = useState<Set<string>>(new Set())
   const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites()
 
   useEffect(() => {
     fetchSports()
   }, [])
+
+  useEffect(() => {
+    debounceSearch(setDebouncedSearchTerm, searchTerm)
+  }, [searchTerm])
 
   const fetchSports = async () => {
     try {
@@ -87,20 +93,8 @@ export function SportsSidebar() {
     }
   }
 
-  const filteredSports = sports.filter(
-    (sport) =>
-      sport.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      sport.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      sport.group.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
-
-  const sportsByGroup: { [key: string]: Sport[] } = {}
-  filteredSports.forEach((sport) => {
-    if (!sportsByGroup[sport.group]) {
-      sportsByGroup[sport.group] = []
-    }
-    sportsByGroup[sport.group].push(sport)
-  })
+  const filteredSports = filterSportsBySearch(sports, debouncedSearchTerm)
+  const sportsByGroup = groupSportsByGroup(filteredSports)
 
   return (
     <Card className="flex flex-col justify-center box-border space-y-2">
@@ -121,7 +115,6 @@ export function SportsSidebar() {
       <div className="space-y-4">
         {Object.entries(sportsByGroup).map(([group, groupSports]) => (
           <div key={group} className="space-y-2">
-
             <h3 className="font-semibold text-sm uppercase flex gap-2">
               <Medal className="text-green-500 w-8" /> {group}
             </h3>
@@ -130,8 +123,9 @@ export function SportsSidebar() {
               {groupSports.map((sport) => (
                 <div key={sport.key} className="space-y-1">
                   <div
-                    className={`flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-accent hover:text-green-500 ${expandedSports.has(sport.key) ? "bg-accent" : ""
-                      }`}
+                    className={`flex items-center justify-between p-2 rounded-md cursor-pointer hover:bg-accent hover:text-green-500 ${
+                      expandedSports.has(sport.key) ? "bg-accent" : ""
+                    }`}
                     onClick={() => toggleSport(sport.key)}
                   >
                     <div className="flex items-center gap-2 flex-1">
@@ -163,10 +157,11 @@ export function SportsSidebar() {
 
                             <span className="cursor-pointer" onClick={(e) => toggleLeagueFavorite(sport, e)}>
                               <Heart
-                                className={`w-4 ${isFavorite(createLeagueId(sport))
+                                className={`w-4 ${
+                                  isFavorite(createLeagueId(sport))
                                     ? "fill-green-500 text-green-500"
                                     : "text-muted-foreground"
-                                  }`}
+                                }`}
                               />
                             </span>
                           </div>
