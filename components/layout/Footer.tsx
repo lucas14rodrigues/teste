@@ -46,17 +46,17 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/odds/upcoming" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
+                <Link href="/" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
                   Esportes
                 </Link>
               </li>
               <li>
-                <Link href="/sobre" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
+                <Link href="/" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
                   Sobre Nós
                 </Link>
               </li>
               <li>
-                <Link href="/ajuda" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
+                <Link href="/" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
                   Ajuda
                 </Link>
               </li>
@@ -68,25 +68,25 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/odds/soccer_brazil_campeonato"
+                  href="/odds/soccer_brazil_campeonato/"
                   className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors"
                 >
                   Futebol Brasileiro
                 </Link>
               </li>
               <li>
-                <Link href="/odds/soccer_epl" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
+                <Link href="/odds/soccer_epl/" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
                   Premier League
                 </Link>
               </li>
               <li>
-                <Link href="/odds/basketball_nba" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
+                <Link href="/odds/basketball_nba/" className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors">
                   NBA
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/odds/americanfootball_nfl"
+                  href="/odds/americanfootball_nfl/"
                   className="text-stone-50 text-base font-normal hover:text-green-500 transition-colors"
                 >
                   NFL
