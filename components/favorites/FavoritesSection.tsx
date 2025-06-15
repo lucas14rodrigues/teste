@@ -18,7 +18,7 @@ export function FavoritesSection() {
       <Card className="flex flex-col justify-center box-border space-y-2">
         <Heart className="w-8 text-green-500" />
         <h2 className="font-semibold text-lg">Nenhum favorito ainda</h2>
-        <p className="text-base font-normal">Adicione esportes aos seus favoritos para organizá-los aqui.</p>
+        <p className="text-sm font-normal">Adicione suas ligas favoritas e as organize aqui</p>
       </Card>
     )
   }
@@ -27,7 +27,7 @@ export function FavoritesSection() {
     <Card className="flex flex-col justify-center box-border space-y-2"> 
       <Heart className="w-8 text-green-500" />
       <h2 className="font-semibold text-lg">Ligas Favoritas</h2>
-      <p className="text-base font-normal">Arraste e solte para reorganizar suas categorias favoritas</p>
+      <p className="text-sm font-normal">Arraste e solte para reorganizar suas categorias favoritas</p>
 
       <Reorder.Group axis="y" values={favorites} onReorder={reorderFavorites}>
         {favorites.map((league) => (

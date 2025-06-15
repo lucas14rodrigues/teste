@@ -105,7 +105,7 @@ export function SportsSidebar() {
       <div className="relative mb-4 flex items-center">
         <Search className="absolute text-green-500 left-2" />
         <Input
-          placeholder="Buscar esportes e ligas..."
+          placeholder="Buscar esportes e ligas"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pl-10"

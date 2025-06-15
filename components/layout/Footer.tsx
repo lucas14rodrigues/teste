@@ -19,7 +19,7 @@ export function Footer() {
               title="Ana Gaming"
             />
             <p className="text-base font-normal text-stone-50">
-              Acompanhe suas apostas esportivas ao vivo com dados atualizados, odds em tempo real e resultados organizados em uma interface intuitiva.
+              Fique por dentro das apostas esportivas e odds mais altas com nosso comparador ao vivo.
             </p>
             <div className="flex gap-2">
               <a href="#" className="text-stone-50 hover:text-green-500">

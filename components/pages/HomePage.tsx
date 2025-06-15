@@ -7,8 +7,8 @@ export default function HomePage() {
   return (
     <>
       <MainBanner
-        title='Ana Gaming, visualize suas <br> <span style="color: oklch(72.3% 0.219 149.579)">Apostas Esportivas em um só lugar</span>'
-        description="Acompanhe suas apostas esportivas ao vivo com dados atualizados, odds em tempo real <br> e resultados organizados em uma interface intuitiva."
+        title='As melhores <span style="color: oklch(72.3% 0.219 149.579)">Apostas Esportivas</span><br> em um só lugar'
+        description="Fique por dentro das apostas esportivas e odds mais altas com nosso comparador ao vivo."
         image="/banners/banner.webp"
       />
 

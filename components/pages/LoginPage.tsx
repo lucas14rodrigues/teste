@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { signIn, getSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Github } from "lucide-react"
+import { User } from "lucide-react"
 
 // Componentes
 import { Button } from "@/components/ui/Button"
@@ -45,7 +45,7 @@ export default function LoginPage() {
                     <p className="text-base font-normal">Entre com sua conta GitHub para acessar a plataforma</p>
 
                     <Button onClick={handleGithubSignIn} className="w-full flex gap-2 mr-auto ml-auto">
-                        <Github className="h-8" />
+                        <User className="h-8" />
                         <span>Entrar</span>
                     </Button>
                 </Card>
