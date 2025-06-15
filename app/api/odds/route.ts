@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const API_KEY = process.env.ODDS_API_KEY || "6490c7f9bda2f77df605ed03621f7b53"
+const API_KEY = process.env.ODDS_API_KEY || "5c6e500b4558d4524bcdb807c7476481"
 const BASE_URL = "https://api.the-odds-api.com/v4"
 
 export async function GET(request: Request) {
